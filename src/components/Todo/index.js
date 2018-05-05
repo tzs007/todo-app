@@ -14,31 +14,37 @@ import {
   ListGroupItem,
 } from 'reactstrap';
 import _ from 'lodash';
-import { TiTimes, TiPlus, TiPencil } from 'react-icons/lib/ti';
+import { TiPlus, TiArrowSync } from 'react-icons/lib/ti';
 
 import { connect } from 'react-redux';
 import { getTasks } from './actions';
+
+import TaskItem from './components/TaskItem';
+import TodoNav from './components/TodoNav';
 
 class Todo extends Component {
   componentDidMount = () => {
     this.props.getTasks();
   };
 
+  handleClick = e => {
+    const target = e.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+    console.log(name);
+  };
+
   render = () => {
-    if (!this.props.tasks) {
-      // const { tasks } = this.props;
-      const tasks = [
-        { id: 1, content: 'Buy a new lightsaber', done: false },
-        { id: 2, content: 'Learn the Force', done: false },
-        { id: 3, content: 'Kill da Emperor', done: false },
-      ];
+    if (this.props.tasks) {
+      const { tasks } = this.props;
+
       return (
         <Card>
           <CardBody>
             <div>
               <img
                 src="/images/yoda.svg"
-                style={{ width: '70px', height: '70px' }}
+                id="logo"
                 className="d-block mx-auto"
                 alt=""
               />
@@ -49,45 +55,27 @@ class Todo extends Component {
             <CardSubtitle className="text-center">
               Do or do not, there's no try!
             </CardSubtitle>
+            <TodoNav />
             <hr />
             <ListGroup>
-              {_.map(tasks, (task, id) => (
-                <ListGroupItem key={id} className="px-0 py-1 border-0">
-                  <InputGroup>
-                    <InputGroupAddon addonType="prepend">
-                      <InputGroupText>
-                        <Input
-                          addon
-                          type="checkbox"
-                          value={task.done}
-                          checked={!task.done ? 'checked' : ''}
-                        />
-                      </InputGroupText>
-                    </InputGroupAddon>
-                    <Input
-                      value={task.content}
-                      placeholder="e.g.: Buy a new lightsaber"
-                    />
-                    <InputGroupAddon addonType="append">
-                      <Button outline color="info">
-                        <TiPencil size={20} />
-                      </Button>
-                    </InputGroupAddon>
-                    <InputGroupAddon addonType="append">
-                      <Button outline color="danger">
-                        <TiTimes size={20} />
-                      </Button>
-                    </InputGroupAddon>
-                  </InputGroup>
-                </ListGroupItem>
+              {_.map(tasks, task => (
+                <TaskItem
+                  key={task.id}
+                  handleClick={this.handleClick}
+                  {...task}
+                />
               ))}
             </ListGroup>
             <hr />
             <InputGroup>
               <InputGroupAddon addonType="prepend">New task:</InputGroupAddon>
-              <Input />
+              <Input name="task" />
               <InputGroupAddon addonType="append">
-                <Button color="success">
+                <Button
+                  name="create"
+                  color="success"
+                  onClick={e => this.handleClick(e)}
+                >
                   <TiPlus size={20} />
                 </Button>
               </InputGroupAddon>
@@ -96,10 +84,11 @@ class Todo extends Component {
         </Card>
       );
     }
+
     return (
       <Card>
         <CardBody className="text-center">
-          <div className="loading d-inline-block">&nbsp;</div> Loading
+          <TiArrowSync /> Loading
         </CardBody>
       </Card>
     );

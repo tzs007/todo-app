@@ -1,5 +1,5 @@
-export const GET_TASKS_PENDING = 'GET_TASKS_PENDING';
-export const GET_TASKS_SUCCESS = 'GET_TASKS_SUCCESS';
-export const GET_TASKS_FAILED = 'GET_TASKS_FAILED';
-
+export const GET_TASKS = 'GET_TASKS';
 export const CREATE_TASK = 'CREATE_TASK';
+export const REMOVE_TASK = 'REMOVE_TASK';
+export const TOGGLE_TASK = 'TOGGLE_TASK';
+export const UPDATE_TASK = 'UPDATE_TASK';

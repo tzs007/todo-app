@@ -1,8 +1,8 @@
-import { GET_TASKS_SUCCESS, CREATE_TASK } from '../../redux/action.types';
+import { GET_TASKS, CREATE_TASK } from '../../redux/action.types';
 
 export default (state = {}, { type = '', payload = {} }) => {
   switch (type) {
-    case GET_TASKS_SUCCESS: {
+    case GET_TASKS: {
       return {
         ...state,
         tasks: payload,

@@ -1,8 +1,9 @@
 import {
-  GET_TASKS_PENDING,
-  GET_TASKS_SUCCESS,
-  GET_TASKS_FAILED,
+  GET_TASKS,
   CREATE_TASK,
+  REMOVE_TASK,
+  UPDATE_TASK,
+  TOGGLE_TASK,
 } from '../../redux/action.types';
 
 // =================
@@ -10,40 +11,33 @@ import {
 // =================
 // GET TASKS
 
-/* export const getTasksPending = () => ({
-  type: GET_TASKS_PENDING,
-  payload: {},
-});
+export const getTasks = () => dispatch =>
+  dispatch({
+    type: GET_TASKS,
+    payload: [
+      { id: 1, task: 'Buy a new lightsaber', status: true },
+      { id: 2, task: 'Learn the Force', status: false },
+      { id: 3, task: 'Kill da Emperor', status: false },
+    ],
+  });
 
-export const getTasksSuccess = tasks => ({
-  type: GET_TASKS_SUCCESS,
-  payload: tasks,
-});
-
-export const getTasksFailed = error => ({
-  type: GET_TASKS_FAILED,
-  payload: error,
-}); */
-
-export const getTasks = () => dispatch => {
-  console.log('Get Tasks');
-};
-
-// CREATE TASK
-export const createTask = task => ({
-  type: CREATE_TASK,
-  payload: {
-    id: task.id,
-    task: task.text,
-    done: false,
-  },
-});
+/*// CREATE TASK
+export const createTask = ({ id, task, status }) => dispatch => {
+  dispatch({
+    type: CREATE_TASK,
+    payload: {
+      id,
+      task,
+      status,
+    },
+  });
+}; */
 
 // UPDATE TASK
 
 // REMOVE TASK
 
-// ===
+// === TOGGLE TASK
 
 // MARK AS DONE
 
