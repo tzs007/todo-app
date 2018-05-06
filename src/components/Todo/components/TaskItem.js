@@ -8,9 +8,7 @@ import {
   ListGroupItem,
 } from 'reactstrap';
 import { TiTimes } from 'react-icons/lib/ti';
-
-// import { connect } from 'react-redux';
-// import toggleTask from '../actions';
+import _ from 'lodash';
 
 export default class TaskItem extends Component {
   constructor(props) {
@@ -27,8 +25,23 @@ export default class TaskItem extends Component {
     this.setState({ task });
   };
 
-  toggleStatus = e => {
+  handleRemoveTask = id => {
+    console.log('remove');
+    const { taskList } = this.state;
+    _.pullAllBy(taskList, id);
+    this.props.createTask(taskList);
+  };
+
+  handleUpdateTask = task => {
+    console.log('update');
+    /*  const { taskList } = this.state;
+     _.pullAllBy(taskList, task);
+     this.props.createTask(taskList); */
+  };
+
+  handleToggleTask = e => {
     const completed = e.target.checked;
+    const { taskList } = this.state;
     this.setState({
       completed, // !this.state.completed
     });
@@ -38,7 +51,6 @@ export default class TaskItem extends Component {
 
   render() {
     const { completed, task, id } = this.state;
-    const { handleClick } = this.props;
 
     return (
       <ListGroupItem className="px-0 py-1 border-0">
@@ -51,7 +63,7 @@ export default class TaskItem extends Component {
                 type="checkbox"
                 value={completed}
                 checked={completed ? 'checked' : ''}
-                onChange={e => this.toggleStatus(e)}
+                onChange={e => this.handleToggleTask(e)}
               />
             </InputGroupText>
           </InputGroupAddon>
@@ -68,7 +80,7 @@ export default class TaskItem extends Component {
               outline
               name="removeTask"
               color="danger"
-              onClick={e => handleClick(e)}
+              onClick={() => this.handleRemoveTask(id)}
             >
               <TiTimes size={20} />
             </Button>
@@ -78,7 +90,7 @@ export default class TaskItem extends Component {
               outline
               name="updateTask"
               color="info"
-              onClick={e => handleClick(e)}
+              onClick={e => this.handleUpdateTask(e)}
             >
               Update
             </Button>

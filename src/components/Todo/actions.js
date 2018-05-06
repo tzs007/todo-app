@@ -22,7 +22,7 @@ export const getTasks = () => dispatch =>
 export const createTask = task => dispatch => {
   dispatch({
     type: CREATE_TASK,
-    payload: [task],
+    payload: task,
   });
 };
 

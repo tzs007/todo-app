@@ -30,6 +30,7 @@ class Todo extends Component {
     super(props);
     this.state = {
       newTask: '',
+      taskList: [],
     };
   }
 
@@ -42,31 +43,27 @@ class Todo extends Component {
     this.setState({ newTask });
   };
 
-  handleClick = e => {
-    const name = e.target.name;
+  handleCreateTask = () => {
+    const { taskList } = this.state;
 
-    switch (name) {
-      case 'createTask':
-        this.props.createTask({
-          id: uuid(),
-          task: this.state.newTask,
-          completed: false,
-        });
-        this.setState({
-          newTask: '',
-        });
-        break;
-      case 'removeTask':
-        break;
+    taskList.push({
+      id: uuid(),
+      task: this.state.newTask,
+      completed: false,
+    });
 
-      default:
-        break;
-    }
+    this.props.createTask(taskList);
+
+    this.setState({
+      newTask: '',
+    });
   };
 
   render = () => {
     if (this.props.tasks) {
       const { tasks } = this.props;
+
+      console.log(this.props);
 
       return (
         <Card>
@@ -91,11 +88,7 @@ class Todo extends Component {
             <ListGroup>
               {tasks.length > 0 ? (
                 _.map(tasks, task => (
-                  <TaskItem
-                    key={task.id}
-                    handleClick={this.handleClick}
-                    {...task}
-                  />
+                  <TaskItem key={task.id} {...task} {...this.props} />
                 ))
               ) : (
                 <p className="mb-0 text-center text-muted">
@@ -116,7 +109,7 @@ class Todo extends Component {
                 <Button
                   name="createTask"
                   color="success"
-                  onClick={e => this.handleClick(e)}
+                  onClick={this.handleCreateTask}
                 >
                   <TiPlus size={20} />
                 </Button>
