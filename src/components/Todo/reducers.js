@@ -1,6 +1,7 @@
 import { GET_TASKS, CREATE_TASK } from '../../redux/action.types';
 
-export default (state = {}, { type = '', payload = {} }) => {
+export default (state = {}, { type = '', payload = [] }) => {
+  console.log(payload);
   switch (type) {
     case GET_TASKS: {
       return {
@@ -12,7 +13,7 @@ export default (state = {}, { type = '', payload = {} }) => {
     case CREATE_TASK: {
       return {
         ...state,
-        task: payload,
+        tasks: payload,
       };
     }
 

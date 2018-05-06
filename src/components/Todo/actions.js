@@ -5,6 +5,7 @@ import {
   UPDATE_TASK,
   TOGGLE_TASK,
 } from '../../redux/action.types';
+import store from '../../redux/store';
 
 // =================
 // TODO LIST ACTIONS
@@ -14,21 +15,24 @@ import {
 export const getTasks = () => dispatch =>
   dispatch({
     type: GET_TASKS,
-    payload: [
-      { id: 1, task: 'Buy a new lightsaber', status: true },
-      { id: 2, task: 'Learn the Force', status: false },
-      { id: 3, task: 'Kill da Emperor', status: false },
-    ],
+    payload: store.getState(),
   });
 
-/*// CREATE TASK
-export const createTask = ({ id, task, status }) => dispatch => {
+// CREATE TASK
+export const createTask = task => dispatch => {
+  dispatch({
+    type: CREATE_TASK,
+    payload: [task],
+  });
+};
+
+/*export const createTask = ({ id, task, completed }) => dispatch => {
   dispatch({
     type: CREATE_TASK,
     payload: {
       id,
       task,
-      status,
+      completed,
     },
   });
 }; */

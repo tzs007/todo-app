@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import {
   Card,
+  CardHeader,
   CardBody,
+  CardFooter,
   CardTitle,
   CardSubtitle,
   CardText,
@@ -15,23 +17,51 @@ import {
 } from 'reactstrap';
 import _ from 'lodash';
 import { TiPlus, TiArrowSync } from 'react-icons/lib/ti';
+import uuid from 'uuid/v1';
 
 import { connect } from 'react-redux';
-import { getTasks } from './actions';
+import { getTasks, createTask } from './actions';
 
 import TaskItem from './components/TaskItem';
 import TodoNav from './components/TodoNav';
 
 class Todo extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      newTask: '',
+    };
+  }
+
   componentDidMount = () => {
     this.props.getTasks();
   };
 
+  handleInputChange = e => {
+    const newTask = e.target.value;
+    this.setState({ newTask });
+  };
+
   handleClick = e => {
-    const target = e.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-    console.log(name);
+    const name = e.target.name;
+
+    switch (name) {
+      case 'createTask':
+        this.props.createTask({
+          id: uuid(),
+          task: this.state.newTask,
+          completed: false,
+        });
+        this.setState({
+          newTask: '',
+        });
+        break;
+      case 'removeTask':
+        break;
+
+      default:
+        break;
+    }
   };
 
   render = () => {
@@ -40,7 +70,7 @@ class Todo extends Component {
 
       return (
         <Card>
-          <CardBody>
+          <CardHeader>
             <div>
               <img
                 src="/images/yoda.svg"
@@ -56,23 +86,35 @@ class Todo extends Component {
               Do or do not, there's no try!
             </CardSubtitle>
             <TodoNav />
-            <hr />
+          </CardHeader>
+          <CardBody>
             <ListGroup>
-              {_.map(tasks, task => (
-                <TaskItem
-                  key={task.id}
-                  handleClick={this.handleClick}
-                  {...task}
-                />
-              ))}
+              {tasks.length > 0 ? (
+                _.map(tasks, task => (
+                  <TaskItem
+                    key={task.id}
+                    handleClick={this.handleClick}
+                    {...task}
+                  />
+                ))
+              ) : (
+                <p className="mb-0 text-center text-muted">
+                  === Your task list is empty ===
+                </p>
+              )}
             </ListGroup>
             <hr />
             <InputGroup>
               <InputGroupAddon addonType="prepend">New task:</InputGroupAddon>
-              <Input name="task" />
+              <Input
+                name="task"
+                value={this.state.newTask}
+                onChange={e => this.handleInputChange(e)}
+                placeholder="e.g.: Build a new protocol droid"
+              />
               <InputGroupAddon addonType="append">
                 <Button
-                  name="create"
+                  name="createTask"
                   color="success"
                   onClick={e => this.handleClick(e)}
                 >
@@ -81,6 +123,12 @@ class Todo extends Component {
               </InputGroupAddon>
             </InputGroup>
           </CardBody>
+          <CardFooter className="text-muted">
+            <small>
+              Hint: Task content is loaded into an input field, so you can
+              change that in place.
+            </small>
+          </CardFooter>
         </Card>
       );
     }
@@ -101,6 +149,7 @@ const mapStateToProps = ({ tasks }) => ({
 
 const mapDispatchToProps = {
   getTasks,
+  createTask,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todo);

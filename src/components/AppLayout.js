@@ -25,11 +25,12 @@ export default class AppLayout extends Component {
   render() {
     return (
       <Container
+        fluid
         id="appContainer"
         className="d-flex justify-content-center align-items-center"
       >
         <Row className="w-100">
-          <Col sm={{ size: 6, offset: 3 }}>
+          <Col sm={{ size: 8, offset: 4 }} md={{ size: 6, offset: 3 }}>
             <Todo />
           </Col>
         </Row>
