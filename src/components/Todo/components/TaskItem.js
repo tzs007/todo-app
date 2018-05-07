@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import {
+  FormText,
   InputGroup,
   InputGroupAddon,
   InputGroupText,
@@ -8,52 +10,42 @@ import {
   ListGroupItem,
 } from 'reactstrap';
 import { TiTimes } from 'react-icons/lib/ti';
-import _ from 'lodash';
 
 export default class TaskItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: props.id,
       task: props.task,
-      completed: props.completed,
     };
   }
 
-  handleInputChange = e => {
+  handleTaskItemInputChange = e => {
     const task = e.target.value;
     this.setState({ task });
   };
 
-  handleRemoveTask = id => {
-    console.log('remove');
-    const { taskList } = this.state;
-    _.pullAllBy(taskList, id);
-    this.props.createTask(taskList);
-  };
-
-  handleUpdateTask = task => {
-    console.log('update');
-    /*  const { taskList } = this.state;
-     _.pullAllBy(taskList, task);
-     this.props.createTask(taskList); */
-  };
-
-  handleToggleTask = e => {
-    const completed = e.target.checked;
-    const { taskList } = this.state;
-    this.setState({
-      completed, // !this.state.completed
-    });
-
-    // this.props.toggleTask(); // action
-  };
-
   render() {
-    const { completed, task, id } = this.state;
+    const {
+      completed,
+      id,
+      timestamp,
+      index,
+      handleUpdateTask,
+      handleToggleTask,
+      handleRemoveTask,
+    } = this.props;
+    const { task } = this.state;
+    const taskContainer = {
+      id,
+      task,
+      index,
+    };
 
     return (
       <ListGroupItem className="px-0 py-1 border-0">
+        <FormText color="muted mt-0">
+          {moment(timestamp).format('YYYY MMMM D. HH:mm:ss')}
+        </FormText>
         <InputGroup>
           <InputGroupAddon addonType="prepend">
             <InputGroupText>
@@ -63,13 +55,13 @@ export default class TaskItem extends Component {
                 type="checkbox"
                 value={completed}
                 checked={completed ? 'checked' : ''}
-                onChange={e => this.handleToggleTask(e)}
+                onChange={() => handleToggleTask(taskContainer)}
               />
             </InputGroupText>
           </InputGroupAddon>
           <Input
             value={task}
-            onChange={e => this.handleInputChange(e)}
+            onChange={e => this.handleTaskItemInputChange(e)}
             disabled={completed ? 'disabled' : ''}
             style={{
               textDecoration: completed ? 'line-through' : 'none',
@@ -80,7 +72,7 @@ export default class TaskItem extends Component {
               outline
               name="removeTask"
               color="danger"
-              onClick={() => this.handleRemoveTask(id)}
+              onClick={() => handleRemoveTask(id)}
             >
               <TiTimes size={20} />
             </Button>
@@ -90,7 +82,7 @@ export default class TaskItem extends Component {
               outline
               name="updateTask"
               color="info"
-              onClick={e => this.handleUpdateTask(e)}
+              onClick={() => handleUpdateTask(taskContainer)}
             >
               Update
             </Button>

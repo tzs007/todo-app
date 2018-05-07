@@ -1,12 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { CardText } from 'reactstrap';
+import { Button } from 'reactstrap';
 
-export default () => {
+export default props => {
   return (
-    <CardText className="text-center mt-2">
-      <Link to="/">All</Link> | <Link to="/undone">Undone</Link> |{' '}
-      <Link to="/archive">Archive</Link>
-    </CardText>
+    <div className="text-center mt-2">
+      <Button color="link" onClick={() => props.setFilterTo('all')}>
+        All
+      </Button>{' '}
+      |
+      <Button color="link" onClick={() => props.setFilterTo('undone')}>
+        Undone
+      </Button>{' '}
+      |
+      <Button color="link" onClick={() => props.setFilterTo('done')}>
+        Archive
+      </Button>
+    </div>
   );
 };

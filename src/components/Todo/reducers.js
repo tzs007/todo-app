@@ -1,8 +1,8 @@
-import { GET_TASKS, CREATE_TASK } from '../../redux/action.types';
+import { GET_TASKS, SAVE_TASK } from '../../redux/action.types';
 
 export default (state = {}, { type = '', payload = [] }) => {
-  console.log(payload);
   switch (type) {
+    // Reducer for get all tasks
     case GET_TASKS: {
       return {
         ...state,
@@ -10,7 +10,8 @@ export default (state = {}, { type = '', payload = [] }) => {
       };
     }
 
-    case CREATE_TASK: {
+    // Reducer for saving task
+    case SAVE_TASK: {
       return {
         ...state,
         tasks: payload,

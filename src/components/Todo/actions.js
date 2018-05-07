@@ -1,48 +1,20 @@
-import {
-  GET_TASKS,
-  CREATE_TASK,
-  REMOVE_TASK,
-  UPDATE_TASK,
-  TOGGLE_TASK,
-} from '../../redux/action.types';
-import store from '../../redux/store';
+import { GET_TASKS, SAVE_TASK } from '../../redux/action.types';
 
 // =================
 // TODO LIST ACTIONS
 // =================
-// GET TASKS
 
+// GET TASKS
 export const getTasks = () => dispatch =>
   dispatch({
     type: GET_TASKS,
-    payload: store.getState(),
+    payload: [],
   });
 
 // CREATE TASK
-export const createTask = task => dispatch => {
+export const saveTask = task => dispatch => {
   dispatch({
-    type: CREATE_TASK,
+    type: SAVE_TASK,
     payload: task,
   });
 };
-
-/*export const createTask = ({ id, task, completed }) => dispatch => {
-  dispatch({
-    type: CREATE_TASK,
-    payload: {
-      id,
-      task,
-      completed,
-    },
-  });
-}; */
-
-// UPDATE TASK
-
-// REMOVE TASK
-
-// === TOGGLE TASK
-
-// MARK AS DONE
-
-// MARK AS UNDONE

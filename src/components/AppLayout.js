@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './AppLayout.css';
 
 import Todo from './Todo';
+import About from './About';
 
 export default class AppLayout extends Component {
   constructor(props) {
@@ -30,8 +31,11 @@ export default class AppLayout extends Component {
         className="d-flex justify-content-center align-items-center"
       >
         <Row className="w-100">
-          <Col sm={{ size: 8, offset: 4 }} md={{ size: 6, offset: 3 }}>
-            <Todo />
+          <Col sm={{ size: 8, offset: 2 }} md={{ size: 6, offset: 3 }}>
+            <Switch>
+              <Route exact path="/" component={Todo} />
+              <Route path="/about" component={About} />
+            </Switch>
           </Col>
         </Row>
       </Container>

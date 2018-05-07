@@ -35,6 +35,10 @@ svg {
   animation: spin 1s linear infinite;
 }
 
+.disallowedPointer {
+  cursor: not-allowed;
+}
+
 @-moz-keyframes spin {
   100% {
     -moz-transform: rotate(360deg);
