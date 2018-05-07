@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { ListGroup } from 'reactstrap';
-import { IoSadOutline } from 'react-icons/lib/io';
+import { IoHappyOutline } from 'react-icons/lib/io';
 import _ from 'lodash';
 
 import TaskItem from './TaskItem';
 
+// Just a stateless component for showing a message on empty tasklist.
 const EmptyList = () => (
   <div>
-    <p>
-      <IoSadOutline size={48} />
+    <p className="text-center">
+      <IoHappyOutline color="#ccc" size={48} />
     </p>
     <p className="mb-0 text-center text-muted">
       === Your task list is empty ===
@@ -17,7 +18,8 @@ const EmptyList = () => (
 );
 
 export default class TaskListWrapper extends Component {
-  condition = (filter, list) => {
+  // Filtering tasks by clicking filter links
+  renderList = (filter, list) => {
     if (filter === 'all') {
       const filteredList = [];
       _.map(list, (task, index) => {
@@ -27,7 +29,7 @@ export default class TaskListWrapper extends Component {
           );
         }
       });
-      return filteredList.length === 0 ? <EmptyList /> : filteredList;
+      return filteredList.length > 0 ? filteredList : <EmptyList />;
     }
 
     if (filter === 'undone') {
@@ -39,7 +41,7 @@ export default class TaskListWrapper extends Component {
           );
         }
       });
-      return filteredList.length === 0 ? <EmptyList /> : filteredList;
+      return filteredList.length > 0 ? filteredList : <EmptyList />;
     }
 
     if (filter === 'done') {
@@ -51,7 +53,7 @@ export default class TaskListWrapper extends Component {
           );
         }
       });
-      return filteredList.length === 0 ? <EmptyList /> : filteredList;
+      return filteredList.length > 0 ? filteredList : <EmptyList />;
     }
   };
 
@@ -60,18 +62,7 @@ export default class TaskListWrapper extends Component {
 
     return (
       <ListGroup>
-        {tasks.length > 0 ? (
-          this.condition(filter, tasks)
-        ) : (
-          <div>
-            <p className="text-center">
-              <IoSadOutline color="#ccc" size={48} />
-            </p>
-            <p className="mb-0 text-center text-muted">
-              === Your task list is empty ===
-            </p>
-          </div>
-        )}
+        {tasks.length > 0 ? this.renderList(filter, tasks) : <EmptyList />}
       </ListGroup>
     );
   }
