@@ -15,7 +15,7 @@ import {
   CardText,
 } from 'reactstrap';
 import _ from 'lodash';
-import { TiPlus, TiArrowSync } from 'react-icons/lib/ti';
+import { IoAndroidAdd, IoAndroidSync } from 'react-icons/lib/io';
 import uuid from 'uuid/v1';
 
 import { connect } from 'react-redux';
@@ -115,7 +115,7 @@ class Todo extends Component {
 
       return (
         <Card>
-          <CardHeader>
+          <CardHeader className="text-center">
             <div>
               <img
                 src="/images/yoda.svg"
@@ -124,12 +124,10 @@ class Todo extends Component {
                 alt=""
               />
             </div>
-            <CardTitle className="text-center">
+            <CardTitle>
               Yoda<span className="font-weight-bold">Todo</span>
             </CardTitle>
-            <CardSubtitle className="text-center">
-              Do or do not, there's no try!
-            </CardSubtitle>
+            <CardSubtitle>Do or do not, there's no try!</CardSubtitle>
             <TodoNav setFilterTo={this.handleFilter} />
           </CardHeader>
           <CardBody>
@@ -158,7 +156,7 @@ class Todo extends Component {
                   disabled={newTask === '' ? true : false}
                   className={newTask === '' ? 'disallowedPointer' : null}
                 >
-                  <TiPlus size={20} />
+                  <IoAndroidAdd size={20} />
                 </Button>
               </InputGroupAddon>
             </InputGroup>
@@ -181,7 +179,7 @@ class Todo extends Component {
     return (
       <Card>
         <CardBody className="text-center">
-          <TiArrowSync /> Loading
+          <IoAndroidSync /> Loading
         </CardBody>
       </Card>
     );
