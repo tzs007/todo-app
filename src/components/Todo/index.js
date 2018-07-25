@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import {
-  Alert,
   Card,
   CardHeader,
   CardBody,
@@ -134,13 +133,6 @@ class Todo extends Component {
             <TodoNav setFilterTo={this.handleFilter} />
           </CardHeader>
           <CardBody>
-            <Alert
-              color="success"
-              isOpen={this.state.visible}
-              toggle={this.onDismiss}
-            >
-              asd
-            </Alert>
             <TaskListWrapper
               {...this.props}
               filter={filter}
@@ -205,4 +197,7 @@ const mapDispatchToProps = {
   saveTask,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Todo);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Todo);
